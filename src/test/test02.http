@@ -1,0 +1,340 @@
+### ====================================================
+### CODELAB 02 — Pruebas de Actuator y Datos de Prueba
+### ====================================================
+### Cada request es independiente y ejecutable por separado
+### Usa el puerto local 8082 cuando ejecutes con Spring Boot
+### Usa el puerto Docker 8085 cuando ejecutes con Docker Compose
+
+###
+
+### ====================================================
+### PARTE 1: VERIFICAR DATOS CARGADOS EN LA BASE DE DATOS
+### ====================================================
+
+### 1. Verificar que hay componentes cargados (Local)
+GET http://localhost:8082/api/v1/component-service/components
+Accept: application/json
+
+###
+
+### 2. Verificar que hay componentes cargados (Docker)
+GET http://localhost:8085/api/v1/component-service/components
+Accept: application/json
+
+###
+
+### 3. Verificar que hay CPUs cargados (Local)
+GET http://localhost:8082/api/v1/component-service/cpus
+Accept: application/json
+
+###
+
+### 4. Verificar que hay CPUs cargados (Docker)
+GET http://localhost:8085/api/v1/component-service/cpus
+Accept: application/json
+
+###
+
+### 5. Verificar que hay GPUs cargadas (Local)
+GET http://localhost:8082/api/v1/component-service/gpus
+Accept: application/json
+
+###
+
+### 6. Verificar que hay GPUs cargadas (Docker)
+GET http://localhost:8085/api/v1/component-service/gpus
+Accept: application/json
+
+###
+
+### 7. Verificar que hay RAMs cargadas (Local)
+GET http://localhost:8082/api/v1/component-service/rams
+Accept: application/json
+
+###
+
+### 8. Verificar que hay RAMs cargadas (Docker)
+GET http://localhost:8085/api/v1/component-service/rams
+Accept: application/json
+
+###
+
+### 9. Verificar que hay Motherboards cargadas (Local)
+GET http://localhost:8082/api/v1/component-service/motherboards
+Accept: application/json
+
+###
+
+### 10. Verificar que hay Motherboards cargadas (Docker)
+GET http://localhost:8085/api/v1/component-service/motherboards
+Accept: application/json
+
+###
+
+### 11. Verificar que hay PSUs cargadas (Local)
+GET http://localhost:8082/api/v1/component-service/psus
+Accept: application/json
+
+###
+
+### 12. Verificar que hay PSUs cargadas (Docker)
+GET http://localhost:8085/api/v1/component-service/psus
+Accept: application/json
+
+###
+
+### ====================================================
+### PARTE 2: HEALTH CHECK Y MÉTRICAS DE ACTUATOR (Local)
+### ====================================================
+
+### 13. Health check — debe mostrar status UP (Local)
+GET http://localhost:8082/actuator/health
+Accept: application/json
+
+###
+
+### 14. Health check — debe mostrar status UP (Docker)
+GET http://localhost:8085/actuator/health
+Accept: application/json
+
+###
+
+### 15. Información de la aplicación (Local)
+GET http://localhost:8082/actuator/info
+Accept: application/json
+
+###
+
+### 16. Lista de todas las métricas disponibles (Local)
+GET http://localhost:8082/actuator/metrics
+Accept: application/json
+
+###
+
+### 17. Memoria JVM usada (Local)
+GET http://localhost:8082/actuator/metrics/jvm.memory.used
+Accept: application/json
+
+###
+
+### 18. Conexiones activas de HikariCP (Local)
+GET http://localhost:8082/actuator/metrics/hikaricp.connections.active
+Accept: application/json
+
+###
+
+### 19. Conexiones inactivas de HikariCP (Local)
+GET http://localhost:8082/actuator/metrics/hikaricp.connections.idle
+Accept: application/json
+
+###
+
+### 20. Todos los endpoints REST registrados (Local)
+GET http://localhost:8082/actuator/mappings
+Accept: application/json
+
+###
+
+### 21. Todos los endpoints REST registrados (Docker)
+GET http://localhost:8085/actuator/mappings
+Accept: application/json
+
+###
+
+### ====================================================
+### PARTE 3: CREAR COMPONENTES NUEVOS (Local)
+### ====================================================
+
+### 22. Crear un CPU nuevo (Local)
+POST http://localhost:8082/api/v1/component-service/cpus
+Content-Type: application/json
+
+{
+  "brand": "AMD",
+  "model": "Ryzen 9 7950X",
+  "price": 3399000,
+  "socket": "AM5",
+  "cores": 16,
+  "threads": 32,
+  "tdp": 170
+}
+
+###
+
+### 23. Crear una GPU nueva (Local)
+POST http://localhost:8082/api/v1/component-service/gpus
+Content-Type: application/json
+
+{
+  "brand": "NVIDIA",
+  "model": "RTX 4080 SUPER",
+  "price": 5499000,
+  "vram": 16,
+  "tdp": 320,
+  "pcieVersion": "PCIe 4.0"
+}
+
+###
+
+### 24. Crear una RAM nueva (Local)
+POST http://localhost:8082/api/v1/component-service/rams
+Content-Type: application/json
+
+{
+  "brand": "Corsair",
+  "model": "Vengeance RGB",
+  "price": 459900,
+  "type": "DDR5",
+  "capacity": 32,
+  "speed": 6000
+}
+
+###
+
+### 25. Crear una Motherboard nueva (Local)
+POST http://localhost:8082/api/v1/component-service/motherboards
+Content-Type: application/json
+
+{
+  "brand": "ASUS",
+  "model": "ROG Strix X670E-E",
+  "price": 1899000,
+  "socket": "AM5",
+  "ramType": "DDR5",
+  "maxRam": 192,
+  "pcieVersion": "PCIe 5.0"
+}
+
+###
+
+### 26. Crear una PSU nueva (Local)
+POST http://localhost:8082/api/v1/component-service/psus
+Content-Type: application/json
+
+{
+  "brand": "Seasonic",
+  "model": "Focus GX-850",
+  "price": 899900,
+  "wattage": 850,
+  "efficiency": "80+ Gold"
+}
+
+###
+
+### ====================================================
+### PARTE 4: CREAR COMPONENTES NUEVOS (Docker)
+### ====================================================
+
+### 27. Crear un CPU nuevo (Docker)
+POST http://localhost:8085/api/v1/component-service/cpus
+Content-Type: application/json
+
+{
+  "brand": "AMD",
+  "model": "Ryzen 9 7950X",
+  "price": 3399000,
+  "socket": "AM5",
+  "cores": 16,
+  "threads": 32,
+  "tdp": 170
+}
+
+###
+
+### 28. Crear una GPU nueva (Docker)
+POST http://localhost:8085/api/v1/component-service/gpus
+Content-Type: application/json
+
+{
+  "brand": "NVIDIA",
+  "model": "RTX 4080 SUPER",
+  "price": 5499000,
+  "vram": 16,
+  "tdp": 320,
+  "pcieVersion": "PCIe 4.0"
+}
+
+###
+
+### 29. Crear una RAM nueva (Docker)
+POST http://localhost:8085/api/v1/component-service/rams
+Content-Type: application/json
+
+{
+  "brand": "Corsair",
+  "model": "Vengeance RGB",
+  "price": 459900,
+  "type": "DDR5",
+  "capacity": 32,
+  "speed": 6000
+}
+
+###
+
+### 30. Crear una Motherboard nueva (Docker)
+POST http://localhost:8085/api/v1/component-service/motherboards
+Content-Type: application/json
+
+{
+  "brand": "ASUS",
+  "model": "ROG Strix X670E-E",
+  "price": 1899000,
+  "socket": "AM5",
+  "ramType": "DDR5",
+  "maxRam": 192,
+  "pcieVersion": "PCIe 5.0"
+}
+
+###
+
+### 31. Crear una PSU nueva (Docker)
+POST http://localhost:8085/api/v1/component-service/psus
+Content-Type: application/json
+
+{
+  "brand": "Seasonic",
+  "model": "Focus GX-850",
+  "price": 899900,
+  "wattage": 850,
+  "efficiency": "80+ Gold"
+}
+
+###
+
+### ====================================================
+### PARTE 5: VERIFICACIONES FINALES
+### ====================================================
+
+### 32. Verificar que el nuevo CPU quedó guardado (Local)
+GET http://localhost:8082/api/v1/component-service/cpus
+Accept: application/json
+
+###
+
+### 33. Verificar que el nuevo CPU quedó guardado (Docker)
+GET http://localhost:8085/api/v1/component-service/cpus
+Accept: application/json
+
+###
+
+### 34. Comprobación final de componentes (Local)
+GET http://localhost:8082/api/v1/component-service/components
+Accept: application/json
+
+###
+
+### 35. Comprobación final de componentes (Docker)
+GET http://localhost:8085/api/v1/component-service/components
+Accept: application/json
+
+###
+
+### 36. Health check final (Local)
+GET http://localhost:8082/actuator/health
+Accept: application/json
+
+###
+
+### 37. Health check final (Docker)
+GET http://localhost:8085/actuator/health
+Accept: application/json

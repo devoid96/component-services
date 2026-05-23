@@ -1,0 +1,173 @@
+### Listar todos los componentes
+GET http://localhost:8085/api/v1/component-service/components
+
+###
+
+### Listar todos los CPU (lista vacía al inicio)
+GET http://localhost:8085/api/v1/component-service/cpus
+
+###
+
+### Crear un CPU
+POST http://localhost:8085/api/v1/component-service/cpus
+Content-Type: application/json
+
+{
+  "brand": "AMD",
+  "model": "Ryzen 7 7800X3D",
+  "price": 1899000,
+  "socket": "AM5",
+  "cores": 8,
+  "threads": 16,
+  "tdp": 120
+}
+
+###
+
+### Crear otro CPU
+POST http://localhost:8085/api/v1/component-service/cpus
+Content-Type: application/json
+
+{
+  "brand": "Intel",
+  "model": "Core i7-14700K",
+  "price": 2299000,
+  "socket": "LGA1700",
+  "cores": 20,
+  "threads": 28,
+  "tdp": 125
+}
+
+###
+
+### Listar todos (ahora debe tener 2 CPU)
+GET http://localhost:8085/api/v1/component-service/cpus
+
+###
+
+### Buscar por ID
+GET http://localhost:8085/api/v1/component-service/cpus/1
+
+###
+
+### Actualizar el primer CPU (el ID va en la URL, no en el body)
+PUT http://localhost:8085/api/v1/component-service/cpus/1
+Content-Type: application/json
+
+{
+  "brand": "AMD",
+  "model": "Ryzen 7 7800X3D",
+  "price": 1899000,
+  "socket": "AM5",
+  "cores": 8,
+  "threads": 16,
+  "tdp": 105
+}
+
+###
+
+### Eliminar el primer CPU
+DELETE http://localhost:8085/api/v1/component-service/cpus
+Content-Type: application/json
+
+{
+  "id": 1
+}
+
+###
+
+### Verificar que ya no existe (debe dar 404)
+GET http://localhost:8085/api/v1/component-service/cpus/1
+
+
+### comandos de forma local
+#######
+###
+###
+###
+
+### Listar todos los componentes
+GET http://localhost:8082/api/v1/component-service/components
+
+###
+
+### Listar todos los CPU (lista vacía al inicio)
+GET http://localhost:8082/api/v1/component-service/cpus
+
+###
+
+### Crear un CPU
+POST http://localhost:8082/api/v1/component-service/cpus
+Content-Type: application/json
+
+{
+  "brand": "AMD",
+  "model": "Ryzen 7 7800X3D",
+  "price": 1899000,
+  "socket": "AM5",
+  "cores": 8,
+  "threads": 16,
+  "tdp": 120
+}
+
+###
+
+### Crear otro CPU
+POST http://localhost:8082/api/v1/component-service/cpus
+Content-Type: application/json
+
+{
+  "brand": "Intel",
+  "model": "Core i7-14700K",
+  "price": 2299000,
+  "socket": "LGA1700",
+  "cores": 20,
+  "threads": 28,
+  "tdp": 125
+}
+
+###
+
+### Listar todos (ahora debe tener 2 CPU)
+GET http://localhost:8082/api/v1/component-service/cpus
+
+###
+
+### Buscar por ID
+GET http://localhost:8082/api/v1/component-service/cpus/1
+
+###
+
+### Actualizar el primer CPU (el ID va en la URL, no en el body)
+PUT http://localhost:8082/api/v1/component-service/cpus/1
+Content-Type: application/json
+
+{
+  "brand": "AMD",
+  "model": "Ryzen 7 7800X3D",
+  "price": 1899000,
+  "socket": "AM5",
+  "cores": 8,
+  "threads": 16,
+  "tdp": 105
+}
+
+###
+
+### Eliminar el primer CPU  (local)
+DELETE http://localhost:8082/api/v1/component-service/cpus
+Content-Type: application/json
+
+{
+  "id": 1
+}
+
+###
+
+### Verificar que ya no existe (debe dar 404) (local)
+GET http://localhost:8082/api/v1/component-service/cpus/1
+
+
+
+
+
