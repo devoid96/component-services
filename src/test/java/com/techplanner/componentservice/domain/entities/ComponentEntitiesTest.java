@@ -105,6 +105,23 @@ class ComponentEntitiesTest {
     }
 
     @Test
+    @DisplayName("Storage getters, setters y validación funcionan correctamente")
+    void shouldValidateStorage_whenValidAndInvalid_returnExpectedResults() {
+        Storage storage = createStorage();
+
+        assertThat(storage.getCapacityGb()).isEqualTo(2000);
+        assertThat(storage.getType()).isEqualTo("NVMe");
+        assertThat(storage.getInterfaceType()).isEqualTo("M.2");
+        assertThat(validator.validate(storage)).isEmpty();
+
+        Set<String> properties = validator.validate(new Storage()).stream()
+                .map(violation -> violation.getPropertyPath().toString())
+                .collect(Collectors.toSet());
+
+        assertThat(properties).contains("capacityGb", "type", "interfaceType");
+    }
+
+    @Test
     @DisplayName("Motherboard getters, setters y validación funcionan correctamente")
     void shouldValidateMotherboard_whenValidAndInvalid_returnExpectedResults() {
         Motherboard motherboard = createMotherboard();
@@ -202,5 +219,17 @@ class ComponentEntitiesTest {
         psu.setWattage(850);
         psu.setEfficiency("80+ Gold");
         return psu;
+    }
+
+    private Storage createStorage() {
+        Storage storage = new Storage();
+        storage.setId(20L);
+        storage.setBrand("Samsung");
+        storage.setModel("990 PRO");
+        storage.setPrice(new BigDecimal("1799000"));
+        storage.setCapacityGb(2000);
+        storage.setType("NVMe");
+        storage.setInterfaceType("M.2");
+        return storage;
     }
 }
