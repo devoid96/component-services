@@ -67,7 +67,7 @@ class ComponentServiceImplTest {
 
         List<Component> componentes = componentService.findAll();
 
-        assertThat(componentes).hasSize(2);
+        assertThat(componentes).hasSize(99);
         assertThat(componentes).extracting(Component::getId).containsExactly(1L, 2L);
         verify(componentDao, times(1)).findAll();
     }
