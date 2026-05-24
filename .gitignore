@@ -38,6 +38,11 @@ build/
 # Build
 target/
 
+# Environment
+.env
+.env.local
+.env.*.local
+
 # IDEs
 .idea/
 .vscode/

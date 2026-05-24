@@ -1,0 +1,99 @@
+### ── Codelab 04 — Arquitectura limpia y excepciones ─────────────────
+
+### 1. GET CPU existente -> 200 OK con body
+GET http://localhost:8082/api/v1/component-service/cpus/1
+Accept: application/json
+
+###
+
+### 2. GET CPU inexistente -> 404 con ApiErrorResponse JSON
+GET http://localhost:8082/api/v1/component-service/cpus/999
+Accept: application/json
+
+###
+
+### 3. PUT CPU existente -> 200 OK
+PUT http://localhost:8082/api/v1/component-service/cpus/1
+Content-Type: application/json
+
+{
+	"brand": "AMD",
+	"model": "Ryzen 9 9900X",
+	"socket": "AM5",
+	"cores": 12,
+	"threads": 24,
+	"tdp": 170,
+	"price": 2399000
+}
+
+###
+
+### 4. PUT CPU inexistente -> 404 con ApiErrorResponse JSON
+PUT http://localhost:8082/api/v1/component-service/cpus/999
+Content-Type: application/json
+
+{
+	"brand": "Fantasma",
+	"model": "Digital",
+	"socket": "AM5",
+	"cores": 8,
+	"threads": 16,
+	"tdp": 105,
+	"price": 1899000
+}
+
+###
+
+### 5. DELETE CPU existente -> 204 No Content
+DELETE http://localhost:8082/api/v1/component-service/cpus/1
+Accept: application/json
+
+###
+
+### 6. DELETE CPU inexistente -> 404 con ApiErrorResponse JSON
+DELETE http://localhost:8082/api/v1/component-service/cpus/999
+Accept: application/json
+
+###
+
+### 7. POST inválido -> 400 con mapa de errores por campo
+POST http://localhost:8082/api/v1/component-service/rams
+Content-Type: application/json
+
+{
+	"brand": "",
+	"model": "",
+	"type": "DDR5",
+	"capacity": 32,
+	"speed": 6000,
+	"price": -100
+}
+
+###
+
+### 8. POST válido -> 201 Created
+POST http://localhost:8082/api/v1/component-service/rams
+Content-Type: application/json
+
+{
+	"brand": "Corsair",
+	"model": "Vengeance RGB",
+	"type": "DDR5",
+	"capacity": 32,
+	"speed": 6000,
+	"price": 850000
+}
+
+###
+
+### 9. Listar paginado -> página 0, 4 elementos
+GET http://localhost:8082/api/v1/component-service/cpus
+Accept: application/json
+
+###
+
+### 10. Health check con estado de la BD
+GET http://localhost:8082/actuator/health
+Accept: application/json
+
+###

@@ -1,39 +1,36 @@
 services:
-
   postgres:
-    image: postgres:16
-
+    image: postgres:16-alpine
     container_name: techplanner-postgres
-
     environment:
       POSTGRES_DB: techplanner
-      POSTGRES_USER: admin
-      POSTGRES_PASSWORD: admin
-
+      POSTGRES_USER: ${DB_USERNAME}
+      POSTGRES_PASSWORD: ${DB_PASSWORD}
     ports:
       - "5433:5432"
-
     volumes:
       - postgres_data:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U $$POSTGRES_USER -d $$POSTGRES_DB"]
+      interval: 5s
+      timeout: 5s
+      retries: 10
+      start_period: 10s
 
-  techplanner-component-service:
-    build:
-      context: .
-      dockerfile: Dockerfile
-
+  app:
+    build: .
     container_name: techplanner-component-service
-
     depends_on:
-      - postgres
-
+      postgres:
+        condition: service_healthy
+    env_file:
+      - .env
     environment:
       SPRING_DATASOURCE_URL: jdbc:postgresql://postgres:5432/techplanner
-      SPRING_DATASOURCE_USERNAME: admin
-      SPRING_DATASOURCE_PASSWORD: admin
-
+      SPRING_DATASOURCE_USERNAME: ${DB_USERNAME}
+      SPRING_DATASOURCE_PASSWORD: ${DB_PASSWORD}
     ports:
       - "8082:8082"
-
     restart: unless-stopped
 
 volumes:
