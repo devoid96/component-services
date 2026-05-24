@@ -14,5 +14,5 @@ public interface IGpuService {
 
     Gpu update(Long id, Gpu gpu);
 
-    void delete(Gpu gpu);
+    void delete(Long id);
 }

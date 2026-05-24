@@ -4,6 +4,7 @@ import com.techplanner.componentservice.entities.Gpu;
 import com.techplanner.componentservice.repositories.IGpuDao;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 import java.util.Optional;
@@ -15,21 +16,25 @@ public class GpuServiceImpl implements IGpuService {
     private IGpuDao gpuDao;
 
     @Override
+    @Transactional(readOnly = true)
     public List<Gpu> findAll() {
         return gpuDao.findAll();
     }
 
     @Override
+    @Transactional(readOnly = true)
     public Optional<Gpu> findById(Long id) {
         return gpuDao.findById(id);
     }
 
     @Override
+    @Transactional
     public Gpu save(Gpu gpu) {
         return gpuDao.save(gpu);
     }
 
     @Override
+    @Transactional
     public Gpu update(Long id, Gpu gpu) {
 
         Gpu gpuActual = gpuDao.findById(id).orElseThrow();
@@ -45,7 +50,8 @@ public class GpuServiceImpl implements IGpuService {
     }
 
     @Override
-    public void delete(Gpu gpu) {
-        gpuDao.delete(gpu);
+    @Transactional
+    public void delete(Long id) {
+        gpuDao.deleteById(id);
     }
 }

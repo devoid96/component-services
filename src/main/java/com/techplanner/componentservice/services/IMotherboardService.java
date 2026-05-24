@@ -14,5 +14,5 @@ public interface IMotherboardService {
 
     Motherboard update(Long id, Motherboard motherboard);
 
-    void delete(Motherboard motherboard);
+    void delete(Long id);
 }

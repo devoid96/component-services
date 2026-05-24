@@ -14,5 +14,5 @@ public interface IPsuService {
 
     Psu update(Long id, Psu psu);
 
-    void delete(Psu psu);
+    void delete(Long id);
 }

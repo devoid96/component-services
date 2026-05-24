@@ -2,10 +2,14 @@ package com.techplanner.componentservice.controllers;
 
 import com.techplanner.componentservice.entities.Ram;
 import com.techplanner.componentservice.services.IRamService;
+import jakarta.validation.Valid;
+import org.springframework.dao.DataAccessException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
@@ -28,30 +32,65 @@ public class RamRestController {
     // ── GET /rams ──────────────────────────────────────────
     // Devuelve la lista de todos los rams registrados
     @GetMapping("/rams")
-    public ResponseEntity<List<Ram>> listarRams() {
-        List<Ram> items = ramService.findAll();
-        return ResponseEntity.ok(items);
+    public ResponseEntity<?> listarRams() {
+        try {
+            List<Ram> items = ramService.findAll();
+            return ResponseEntity.ok(items);
+        } catch (DataAccessException e) {
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
+                    .body(Map.of(
+                            "mensaje", "Error al consultar en la base de datos",
+                            "error", e.getMostSpecificCause() != null
+                                    ? e.getMostSpecificCause().getMessage()
+                                    : e.getMessage()
+                    ));
+        }
     }
 
     // ── GET /rams/{id} ─────────────────────────────────────
     // Busca un ram específico por su ID
     @GetMapping("/rams/{id}")
     public ResponseEntity<?> buscarRam(@PathVariable Long id) {
-        Optional<Ram> item = ramService.findById(id);
+        try {
+            Optional<Ram> item = ramService.findById(id);
 
-        if (item.isPresent()) {
-            return ResponseEntity.ok(item.get());
+            if (item.isPresent()) {
+                return ResponseEntity.ok(item.get());
+            }
+
+            return ResponseEntity.status(HttpStatus.NOT_FOUND)
+                    .body(Map.of("mensaje", "La RAM ID: " + id + " no existe en la base de datos"));
+        } catch (DataAccessException e) {
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
+                    .body(Map.of(
+                            "mensaje", "Error al consultar en la base de datos",
+                            "error", e.getMostSpecificCause() != null
+                                    ? e.getMostSpecificCause().getMessage()
+                                    : e.getMessage()
+                    ));
         }
-
-        return ResponseEntity.notFound().build();
     }
 
     // ── POST /rams ──────────────────────────────────────────
     // Crea un nuevo ram
     @PostMapping("/rams")
-    public ResponseEntity<Ram> crear(@RequestBody Ram ram) {
-        Ram nuevo = ramService.save(ram);
-        return ResponseEntity.status(HttpStatus.CREATED).body(nuevo);
+    public ResponseEntity<?> crear(@Valid @RequestBody Ram ram, BindingResult result) {
+        if (result.hasErrors()) {
+            return ResponseEntity.badRequest().body(construirErrores(result));
+        }
+
+        try {
+            Ram nuevo = ramService.save(ram);
+            return ResponseEntity.status(HttpStatus.CREATED).body(nuevo);
+        } catch (DataAccessException e) {
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
+                    .body(Map.of(
+                            "mensaje", "Error al insertar en la base de datos",
+                            "error", e.getMostSpecificCause() != null
+                                    ? e.getMostSpecificCause().getMessage()
+                                    : e.getMessage()
+                    ));
+        }
     }
 
     // ── PUT /rams/{id} ──────────────────────────────────────
@@ -59,33 +98,60 @@ public class RamRestController {
     @PutMapping("/rams/{id}")
     public ResponseEntity<?> actualizarRam(
             @PathVariable Long id,
-            @RequestBody Ram ram) {
+            @Valid @RequestBody Ram ram,
+            BindingResult result) {
 
-        if (ramService.findById(id).isEmpty()) {
-            return ResponseEntity.notFound().build();
+        if (result.hasErrors()) {
+            return ResponseEntity.badRequest().body(construirErrores(result));
         }
 
-        Ram actualizado = ramService.update(id, ram);
-        return ResponseEntity.ok(actualizado);
+        try {
+            if (ramService.findById(id).isEmpty()) {
+                return ResponseEntity.status(HttpStatus.NOT_FOUND)
+                        .body(Map.of("mensaje", "La RAM ID: " + id + " no existe en la base de datos"));
+            }
+
+            Ram actualizado = ramService.update(id, ram);
+            return ResponseEntity.ok(actualizado);
+        } catch (DataAccessException e) {
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
+                    .body(Map.of(
+                            "mensaje", "Error al actualizar en la base de datos",
+                            "error", e.getMostSpecificCause() != null
+                                    ? e.getMostSpecificCause().getMessage()
+                                    : e.getMessage()
+                    ));
+        }
     }
 
-    // ── DELETE /rams ───────────────────────────────────────
-    // Elimina un ram enviando el ID en el body JSON
-    @DeleteMapping("/rams")
-    public ResponseEntity<?> eliminarRam(@RequestBody Ram ram) {
+    // ── DELETE /rams/{id} ───────────────────────────────────────
+    // Elimina un ram por su ID
+    @DeleteMapping("/rams/{id}")
+    public ResponseEntity<?> eliminarRam(@PathVariable Long id) {
 
-        if (ram.getId() == null) {
-            return ResponseEntity.badRequest()
-                    .body(Map.of("error", "Debe enviar el ID a eliminar"));
+        try {
+            if (ramService.findById(id).isEmpty()) {
+                return ResponseEntity.status(HttpStatus.NOT_FOUND)
+                        .body(Map.of("mensaje", "La RAM ID: " + id + " no existe en la base de datos"));
+            }
+
+            ramService.delete(id);
+            return ResponseEntity.noContent().build();
+        } catch (DataAccessException e) {
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
+                    .body(Map.of(
+                            "mensaje", "Error al eliminar en la base de datos",
+                            "error", e.getMostSpecificCause() != null
+                                    ? e.getMostSpecificCause().getMessage()
+                                    : e.getMessage()
+                    ));
         }
+    }
 
-        Optional<Ram> encontrado = ramService.findById(ram.getId());
-
-        if (encontrado.isEmpty()) {
-            return ResponseEntity.notFound().build();
-        }
-
-        ramService.delete(encontrado.get());
-        return ResponseEntity.ok(Map.of("mensaje", "Ram eliminado correctamente"));
+    private List<String> construirErrores(BindingResult result) {
+        List<String> errores = new ArrayList<>();
+        result.getFieldErrors().forEach(error ->
+                errores.add("El campo '" + error.getField() + "' " + error.getDefaultMessage()));
+        return errores;
     }
 }

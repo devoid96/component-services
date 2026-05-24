@@ -14,5 +14,5 @@ public interface IRamService {
 
     Ram update(Long id, Ram ram);
 
-    void delete(Ram ram);
+    void delete(Long id);
 }

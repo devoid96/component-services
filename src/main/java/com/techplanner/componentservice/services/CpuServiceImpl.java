@@ -4,6 +4,7 @@ import com.techplanner.componentservice.entities.Cpu;
 import com.techplanner.componentservice.repositories.ICpuDao;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 import java.util.Optional;
@@ -15,21 +16,25 @@ public class CpuServiceImpl implements ICpuService {
     private ICpuDao cpuDao;
 
     @Override
+    @Transactional(readOnly = true)
     public List<Cpu> findAll() {
         return cpuDao.findAll();
     }
 
     @Override
+    @Transactional(readOnly = true)
     public Optional<Cpu> findById(Long id) {
         return cpuDao.findById(id);
     }
 
     @Override
+    @Transactional
     public Cpu save(Cpu cpu) {
         return cpuDao.save(cpu);
     }
 
     @Override
+    @Transactional
     public Cpu update(Long id, Cpu cpu) {
 
         Cpu cpuActual = cpuDao.findById(id).orElseThrow();
@@ -46,7 +51,8 @@ public class CpuServiceImpl implements ICpuService {
     }
 
     @Override
-    public void delete(Cpu cpu) {
-        cpuDao.delete(cpu);
+    @Transactional
+    public void delete(Long id) {
+        cpuDao.deleteById(id);
     }
 }

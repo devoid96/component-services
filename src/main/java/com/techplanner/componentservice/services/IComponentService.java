@@ -12,5 +12,5 @@ public interface IComponentService {
 
     Component save(Component component);
 
-    void delete(Component component);
+    void delete(Long id);
 }

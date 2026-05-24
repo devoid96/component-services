@@ -1,0 +1,428 @@
+### ====================================================
+### CODELAB 03 — Paginacion, Validacion y CRUD REST
+### ====================================================
+### Cada request es independiente y ejecutable por separado
+### Usa el puerto local 8082 con Spring Boot
+
+###
+
+### ====================================================
+### PARTE 1: GET SIN PAGINACION
+### ====================================================
+
+### 1. Listar components (sin paginacion)
+GET http://localhost:8082/api/v1/component-service/components
+Accept: application/json
+
+###
+
+### 2. Listar cpus (sin paginacion)
+GET http://localhost:8082/api/v1/component-service/cpus
+Accept: application/json
+
+###
+
+### 3. Listar gpus (sin paginacion)
+GET http://localhost:8082/api/v1/component-service/gpus
+Accept: application/json
+
+###
+
+### 4. Listar rams (sin paginacion)
+GET http://localhost:8082/api/v1/component-service/rams
+Accept: application/json
+
+###
+
+### 5. Listar motherboards (sin paginacion)
+GET http://localhost:8082/api/v1/component-service/motherboards
+Accept: application/json
+
+###
+
+### 6. Listar psus (sin paginacion)
+GET http://localhost:8082/api/v1/component-service/psus
+Accept: application/json
+
+###
+
+### ====================================================
+### PARTE 2: GET PAGINADO
+### ====================================================
+
+### 7. CPUs paginado page 0
+GET http://localhost:8082/api/v1/component-service/cpus/page/0
+Accept: application/json
+
+###
+
+### 8. CPUs paginado page 1
+GET http://localhost:8082/api/v1/component-service/cpus/page/1
+Accept: application/json
+
+###
+
+### 9. CPUs paginado page 100
+GET http://localhost:8082/api/v1/component-service/cpus/page/100
+Accept: application/json
+
+###
+
+### 10. GPUs paginado page 0
+GET http://localhost:8082/api/v1/component-service/gpus/page/0
+Accept: application/json
+
+###
+
+### 11. GPUs paginado page 1
+GET http://localhost:8082/api/v1/component-service/gpus/page/1
+Accept: application/json
+
+###
+
+### 12. GPUs paginado page 100
+GET http://localhost:8082/api/v1/component-service/gpus/page/100
+Accept: application/json
+
+###
+
+### 13. RAMs paginado page 0
+GET http://localhost:8082/api/v1/component-service/rams/page/0
+Accept: application/json
+
+###
+
+### 14. RAMs paginado page 1
+GET http://localhost:8082/api/v1/component-service/rams/page/1
+Accept: application/json
+
+###
+
+### 15. RAMs paginado page 100
+GET http://localhost:8082/api/v1/component-service/rams/page/100
+Accept: application/json
+
+###
+
+### 16. Motherboards paginado page 0
+GET http://localhost:8082/api/v1/component-service/motherboards/page/0
+Accept: application/json
+
+###
+
+### 17. Motherboards paginado page 1
+GET http://localhost:8082/api/v1/component-service/motherboards/page/1
+Accept: application/json
+
+###
+
+### 18. Motherboards paginado page 100
+GET http://localhost:8082/api/v1/component-service/motherboards/page/100
+Accept: application/json
+
+###
+
+### 19. PSUs paginado page 0
+GET http://localhost:8082/api/v1/component-service/psus/page/0
+Accept: application/json
+
+###
+
+### 20. PSUs paginado page 1
+GET http://localhost:8082/api/v1/component-service/psus/page/1
+Accept: application/json
+
+###
+
+### 21. PSUs paginado page 100
+GET http://localhost:8082/api/v1/component-service/psus/page/100
+Accept: application/json
+
+###
+
+### ====================================================
+### PARTE 3: POST INVALIDOS (400)
+### ====================================================
+
+### 22. POST CPU invalido (brand vacio)
+POST http://localhost:8082/api/v1/component-service/cpus
+Content-Type: application/json
+
+{
+	"brand": "",
+	"model": "Ryzen 5 9600X",
+	"price": 1299000,
+	"socket": "AM5",
+	"cores": 6,
+	"threads": 12,
+	"tdp": 105
+}
+
+###
+
+### 23. POST GPU invalido (model vacio)
+POST http://localhost:8082/api/v1/component-service/gpus
+Content-Type: application/json
+
+{
+	"brand": "NVIDIA",
+	"model": "",
+	"price": 3499000,
+	"vram": 12,
+	"tdp": 220,
+	"pcieVersion": "PCIe 4.0"
+}
+
+###
+
+### 24. POST RAM invalido (price invalido)
+POST http://localhost:8082/api/v1/component-service/rams
+Content-Type: application/json
+
+{
+	"brand": "Corsair",
+	"model": "Dominator Platinum",
+	"price": -100,
+	"type": "DDR5",
+	"capacity": 32,
+	"speed": 6200
+}
+
+###
+
+### 25. POST Motherboard invalido (socket faltante)
+POST http://localhost:8082/api/v1/component-service/motherboards
+Content-Type: application/json
+
+{
+	"brand": "ASUS",
+	"model": "TUF Gaming B650-Plus",
+	"price": 999900,
+	"ramType": "DDR5",
+	"maxRam": 128,
+	"pcieVersion": "PCIe 4.0"
+}
+
+###
+
+### 26. POST PSU invalido (efficiency faltante)
+POST http://localhost:8082/api/v1/component-service/psus
+Content-Type: application/json
+
+{
+	"brand": "Seasonic",
+	"model": "Focus GX-750",
+	"price": 699900,
+	"wattage": 750
+}
+
+###
+
+### ====================================================
+### PARTE 4: POST VALIDOS (201)
+### ====================================================
+
+### 27. POST CPU valido
+POST http://localhost:8082/api/v1/component-service/cpus
+Content-Type: application/json
+
+{
+	"brand": "AMD",
+	"model": "Ryzen 9 9950X",
+	"price": 3499000,
+	"socket": "AM5",
+	"cores": 16,
+	"threads": 32,
+	"tdp": 170
+}
+
+###
+
+### 28. POST GPU valido
+POST http://localhost:8082/api/v1/component-service/gpus
+Content-Type: application/json
+
+{
+	"brand": "NVIDIA",
+	"model": "RTX 4070 SUPER",
+	"price": 3999000,
+	"vram": 12,
+	"tdp": 220,
+	"pcieVersion": "PCIe 4.0"
+}
+
+###
+
+### 29. POST RAM valido
+POST http://localhost:8082/api/v1/component-service/rams
+Content-Type: application/json
+
+{
+	"brand": "Kingston",
+	"model": "Fury Renegade",
+	"price": 529900,
+	"type": "DDR5",
+	"capacity": 32,
+	"speed": 6400
+}
+
+###
+
+### 30. POST Motherboard valido
+POST http://localhost:8082/api/v1/component-service/motherboards
+Content-Type: application/json
+
+{
+	"brand": "MSI",
+	"model": "MAG X670E Tomahawk",
+	"price": 1699000,
+	"socket": "AM5",
+	"ramType": "DDR5",
+	"maxRam": 192,
+	"pcieVersion": "PCIe 5.0"
+}
+
+###
+
+### 31. POST PSU valido
+POST http://localhost:8082/api/v1/component-service/psus
+Content-Type: application/json
+
+{
+	"brand": "Corsair",
+	"model": "RM1000x",
+	"price": 999900,
+	"wattage": 1000,
+	"efficiency": "80+ Gold"
+}
+
+###
+
+### ====================================================
+### PARTE 5: GET POR ID (200 Y 404)
+### ====================================================
+
+### 32. GET CPU por ID existente (200)
+GET http://localhost:8082/api/v1/component-service/cpus/1
+Accept: application/json
+
+###
+
+### 33. GET CPU por ID inexistente (404)
+GET http://localhost:8082/api/v1/component-service/cpus/99999
+Accept: application/json
+
+###
+
+### 34. GET GPU por ID existente (200)
+GET http://localhost:8082/api/v1/component-service/gpus/4
+Accept: application/json
+
+###
+
+### 35. GET GPU por ID inexistente (404)
+GET http://localhost:8082/api/v1/component-service/gpus/99999
+Accept: application/json
+
+###
+
+### 36. GET RAM por ID existente (200)
+GET http://localhost:8082/api/v1/component-service/rams/7
+Accept: application/json
+
+###
+
+### 37. GET RAM por ID inexistente (404)
+GET http://localhost:8082/api/v1/component-service/rams/99999
+Accept: application/json
+
+###
+
+### 38. GET Motherboard por ID existente (200)
+GET http://localhost:8082/api/v1/component-service/motherboards/10
+Accept: application/json
+
+###
+
+### 39. GET Motherboard por ID inexistente (404)
+GET http://localhost:8082/api/v1/component-service/motherboards/99999
+Accept: application/json
+
+###
+
+### 40. GET PSU por ID existente (200)
+GET http://localhost:8082/api/v1/component-service/psus/13
+Accept: application/json
+
+###
+
+### 41. GET PSU por ID inexistente (404)
+GET http://localhost:8082/api/v1/component-service/psus/99999
+Accept: application/json
+
+###
+
+### ====================================================
+### PARTE 6: PUT (VALIDO E INVALIDO)
+### ====================================================
+
+### 42. PUT CPU valido (201 esperado por codelab)
+PUT http://localhost:8082/api/v1/component-service/cpus/1
+Content-Type: application/json
+
+{
+	"brand": "AMD",
+	"model": "Ryzen 7 7800X3D",
+	"price": 1999000,
+	"socket": "AM5",
+	"cores": 8,
+	"threads": 16,
+	"tdp": 120
+}
+
+###
+
+### 43. PUT CPU invalido (400, model vacio)
+PUT http://localhost:8082/api/v1/component-service/cpus/1
+Content-Type: application/json
+
+{
+	"brand": "AMD",
+	"model": "",
+	"price": 1999000,
+	"socket": "AM5",
+	"cores": 8,
+	"threads": 16,
+	"tdp": 120
+}
+
+###
+
+### ====================================================
+### PARTE 7: DELETE (204)
+### ====================================================
+
+### 44. DELETE CPU existente (204)
+DELETE http://localhost:8082/api/v1/component-service/cpus/2
+
+###
+
+### 45. DELETE GPU existente (204)
+DELETE http://localhost:8082/api/v1/component-service/gpus/5
+
+###
+
+### 46. DELETE RAM existente (204)
+DELETE http://localhost:8082/api/v1/component-service/rams/8
+
+###
+
+### 47. DELETE Motherboard existente (204)
+DELETE http://localhost:8082/api/v1/component-service/motherboards/11
+
+###
+
+### 48. DELETE PSU existente (204)
+DELETE http://localhost:8082/api/v1/component-service/psus/14
+
+###

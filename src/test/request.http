@@ -67,12 +67,19 @@ Content-Type: application/json
 ###
 
 ### Eliminar el primer CPU
-DELETE http://localhost:8085/api/v1/component-service/cpus
-Content-Type: application/json
+DELETE http://localhost:8085/api/v1/component-service/cpus/1
 
-{
-  "id": 1
-}
+### Eliminar una GPU
+DELETE http://localhost:8085/api/v1/component-service/gpus/4
+
+### Eliminar una RAM
+DELETE http://localhost:8085/api/v1/component-service/rams/7
+
+### Eliminar una Motherboard
+DELETE http://localhost:8085/api/v1/component-service/motherboards/10
+
+### Eliminar una PSU
+DELETE http://localhost:8085/api/v1/component-service/psus/13
 
 ###
 
@@ -155,12 +162,19 @@ Content-Type: application/json
 ###
 
 ### Eliminar el primer CPU  (local)
-DELETE http://localhost:8082/api/v1/component-service/cpus
-Content-Type: application/json
+DELETE http://localhost:8082/api/v1/component-service/cpus/1
 
-{
-  "id": 1
-}
+### Eliminar una GPU (local)
+DELETE http://localhost:8082/api/v1/component-service/gpus/4
+
+### Eliminar una RAM (local)
+DELETE http://localhost:8082/api/v1/component-service/rams/7
+
+### Eliminar una Motherboard (local)
+DELETE http://localhost:8082/api/v1/component-service/motherboards/10
+
+### Eliminar una PSU (local)
+DELETE http://localhost:8082/api/v1/component-service/psus/13
 
 ###
 

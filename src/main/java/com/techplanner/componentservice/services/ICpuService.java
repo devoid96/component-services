@@ -14,6 +14,6 @@ public interface ICpuService {
 
     Cpu update(Long id, Cpu cpu);
 
-    void delete(Cpu cpu);
+    void delete(Long id);
 
 }

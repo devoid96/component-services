@@ -301,40 +301,90 @@ Content-Type: application/json
 
 ###
 
+### 32. Eliminar el CPU creado (Local)
+DELETE http://localhost:8082/api/v1/component-service/cpus/16
+
+###
+
+### 33. Eliminar la GPU creada (Local)
+DELETE http://localhost:8082/api/v1/component-service/gpus/17
+
+###
+
+### 34. Eliminar la RAM creada (Local)
+DELETE http://localhost:8082/api/v1/component-service/rams/18
+
+###
+
+### 35. Eliminar la Motherboard creada (Local)
+DELETE http://localhost:8082/api/v1/component-service/motherboards/19
+
+###
+
+### 36. Eliminar la PSU creada (Local)
+DELETE http://localhost:8082/api/v1/component-service/psus/20
+
+###
+
+### 37. Eliminar el CPU creado (Docker)
+DELETE http://localhost:8085/api/v1/component-service/cpus/16
+
+###
+
+### 38. Eliminar la GPU creada (Docker)
+DELETE http://localhost:8085/api/v1/component-service/gpus/17
+
+###
+
+### 39. Eliminar la RAM creada (Docker)
+DELETE http://localhost:8085/api/v1/component-service/rams/18
+
+###
+
+### 40. Eliminar la Motherboard creada (Docker)
+DELETE http://localhost:8085/api/v1/component-service/motherboards/19
+
+###
+
+### 41. Eliminar la PSU creada (Docker)
+DELETE http://localhost:8085/api/v1/component-service/psus/20
+
+###
+
 ### ====================================================
 ### PARTE 5: VERIFICACIONES FINALES
 ### ====================================================
 
-### 32. Verificar que el nuevo CPU quedó guardado (Local)
+### 42. Verificar que el nuevo CPU quedó guardado (Local)
 GET http://localhost:8082/api/v1/component-service/cpus
 Accept: application/json
 
 ###
 
-### 33. Verificar que el nuevo CPU quedó guardado (Docker)
+### 43. Verificar que el nuevo CPU quedó guardado (Docker)
 GET http://localhost:8085/api/v1/component-service/cpus
 Accept: application/json
 
 ###
 
-### 34. Comprobación final de componentes (Local)
+### 44. Comprobación final de components (Local)
 GET http://localhost:8082/api/v1/component-service/components
 Accept: application/json
 
 ###
 
-### 35. Comprobación final de componentes (Docker)
+### 45. Comprobación final de components (Docker)
 GET http://localhost:8085/api/v1/component-service/components
 Accept: application/json
 
 ###
 
-### 36. Health check final (Local)
+### 46. Health check final (Local)
 GET http://localhost:8082/actuator/health
 Accept: application/json
 
 ###
 
-### 37. Health check final (Docker)
+### 47. Health check final (Docker)
 GET http://localhost:8085/actuator/health
 Accept: application/json
