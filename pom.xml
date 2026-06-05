@@ -87,6 +87,13 @@
 
 	</dependencies>
 
+	<repositories>
+		<repository>
+			<id>github</id>
+			<url>https://maven.pkg.github.com/devoid96/compability-lib</url>
+		</repository>
+	</repositories>
+
 	<build>
 		<plugins>
 			<plugin>
